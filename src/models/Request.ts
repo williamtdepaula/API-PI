@@ -12,7 +12,6 @@ interface SearchBody {
     idade?: number;
 }
 
-
 interface PersonToSaveBody extends Omit<Person, "UBS" | "grupo_risco"> {
     UBS_idUBS?: number;
     idGrupoRisco?: number;
@@ -24,4 +23,13 @@ interface CustomRequest<T> extends Request {
 
 type ResponseFromAPI<T> = IWithPagination<T>
 
-export { SearchBody, PersonToSaveBody, CustomRequest, ResponseFromAPI }
+interface ErrorQuery  {
+    code: string
+    errno: number,
+    sqlMessage: string,
+    sqlState: string,
+    index: number,
+    sql: string
+}
+
+export { SearchBody, PersonToSaveBody, CustomRequest, ResponseFromAPI, ErrorQuery }
