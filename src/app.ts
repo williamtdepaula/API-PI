@@ -1,6 +1,7 @@
 import express, { Application } from 'express'
 import morgan from 'morgan'
 import IndexRoute from './routes/index.route';
+import PeopleRoute from './routes/people.route';
 
 export class App {
     app: Application;
@@ -26,6 +27,7 @@ export class App {
 
     private routes() {
         this.app.use(IndexRoute);
+        this.app.use(PeopleRoute);
     }
 
     async listen(): Promise<void> {
