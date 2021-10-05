@@ -13,4 +13,4 @@ interface Person {
     grupo_risco: string;
 }
 
-export default Person
+export { Person }
