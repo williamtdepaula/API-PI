@@ -13,9 +13,9 @@ Depois é feito um INSERT na table "pessoa_grupo", para relacionar a pessoa com 
 
 */
 export async function savePerson(req: CustomRequest<PersonToSaveBody>, res: Response): Promise<Response> {
-    try{
+    try {
 
-        const {CPF, nome, endereco, genero, idade, nascimento, telefone, UBS_idUBS, idGrupoRisco, email, horario_contato, observacoes} = req.body;
+        const { CPF, nome, endereco, genero, idade, nascimento, telefone, UBS_idUBS, idGrupoRisco, email, horario_contato, observacoes } = req.body;
 
         await db(table_pessoa)
             .insert({
@@ -30,21 +30,21 @@ export async function savePerson(req: CustomRequest<PersonToSaveBody>, res: Resp
                 email,
                 horario_contato,
                 observacoes,
-            }).then((_) => 
+            }).then((_) =>
                 db(table_pessoa_grupo)
-                .insert({
-                    CPF,
-                    GrupoRisco: idGrupoRisco
-                })
+                    .insert({
+                        CPF,
+                        GrupoRisco: idGrupoRisco
+                    })
             );
-    
+
         return res.status(201).send("success");
-    }catch(err){
+    } catch (err) {
         const e = err as ErrorQuery
-        if(e.code == "ER_DUP_ENTRY") {
-            return res.status(409).send({error: true, message: err})
+        if (e.code == "ER_DUP_ENTRY") {
+            return res.status(409).send({ error: true, message: err })
         }
-        return res.status(500).send({error: true, message: err})
+        return res.status(500).send({ error: true, message: err })
     }
 }
 
@@ -58,7 +58,7 @@ A API também possui paginação, onde "minimum" é o mínimo de itens por pági
 
 */
 export async function getPeople(req: CustomRequest<SearchBody>, res: Response): Promise<Response> {
-    try{
+    try {
 
         const { minimum, current_page, nome, ubs, grupo_risco, genero, idade } = req.body;
 
@@ -100,11 +100,11 @@ export async function getPeople(req: CustomRequest<SearchBody>, res: Response): 
                 perPage: minimum,
                 currentPage: current_page,
             });
-    
-        if(response.data.length == 0) return res.status(404).send(response)
-        
+
+        if (response.data.length == 0) return res.status(404).send(response)
+
         return res.status(200).send(response);
-    }catch(err) {
-        return res.status(500).send({error: true})
+    } catch (err) {
+        return res.status(500).send({ error: true })
     }
 }

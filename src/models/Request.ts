@@ -23,6 +23,11 @@ interface CustomRequest<T> extends Request {
 
 type ResponseFromAPI<T> = IWithPagination<T>
 
+interface ResponseGrupoRiskAndUBS {
+    grupo_de_risco: GroupRisk[];
+    UBSs: UBS[]
+}
+
 interface ErrorQuery  {
     code: string
     errno: number,
@@ -32,4 +37,4 @@ interface ErrorQuery  {
     sql: string
 }
 
-export { SearchBody, PersonToSaveBody, CustomRequest, ResponseFromAPI, ErrorQuery }
+export { SearchBody, PersonToSaveBody, CustomRequest, ResponseFromAPI, ErrorQuery, ResponseGrupoRiskAndUBS }
