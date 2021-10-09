@@ -1,5 +1,6 @@
 import { Request } from "express";
 import { IWithPagination } from "knex-paginate";
+import { GroupRisk, UBS } from "./GroupRiskAndUBS";
 import { Person } from "./Person";
 
 interface SearchBody {

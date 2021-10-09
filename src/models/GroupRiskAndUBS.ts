@@ -12,3 +12,5 @@ interface UBS {
     latitude: string;
     longitude: string;
 }
+
+export { GroupRisk, UBS }

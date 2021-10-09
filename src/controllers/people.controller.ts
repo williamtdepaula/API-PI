@@ -38,7 +38,7 @@ export async function savePerson(req: CustomRequest<PersonToSaveBody>, res: Resp
                     })
             );
 
-        return res.status(201).send("success");
+        return res.status(201).send("success")
     } catch (err) {
         const e = err as ErrorQuery
         if (e.code == "ER_DUP_ENTRY") {
@@ -101,6 +101,7 @@ export async function getPeople(req: CustomRequest<SearchBody>, res: Response): 
                 currentPage: current_page,
             });
 
+        
         if (response.data.length == 0) return res.status(404).send(response)
 
         return res.status(200).send(response);
