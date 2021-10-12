@@ -4,7 +4,7 @@ import { GroupRisk, UBS } from "./GroupRiskAndUBS";
 import { Person } from "./Person";
 
 interface SearchBody {
-    minimum: number;
+    max: number;
     current_page: number;
     nome?: string;
     ubs?: number;

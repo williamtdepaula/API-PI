@@ -60,7 +60,7 @@ A API também possui paginação, onde "minimum" é o mínimo de itens por pági
 export async function getPeople(req: CustomRequest<SearchBody>, res: Response): Promise<Response> {
     try {
 
-        const { minimum, current_page, nome, ubs, grupo_risco, genero } = req.body;
+        const { max, current_page, nome, ubs, grupo_risco, genero } = req.body;
 
         const response: ResponseFromAPI<Person> = await db.select(
             'p.CPF',
@@ -73,12 +73,23 @@ export async function getPeople(req: CustomRequest<SearchBody>, res: Response): 
             'p.horario_contato',
             'p.observacoes',
             'ubs.nome AS UBS',
-            'gr.descricao AS grupo_risco',
+            db.raw('group_concat(gr.descricao) AS grupo_risco'),
         )
             .from(`${table_pessoa} AS p`)
             .leftJoin(`${table_pessoa_grupo} AS pg`, "p.CPF", "pg.CPF")
             .leftJoin(`${table_grupo_risco} AS gr`, "pg.GrupoRisco", "gr.idGrupoRisco")
             .innerJoin(`${table_UBS} AS ubs`, "ubs.idUBS", "p.UBS_idUBS")
+            .groupBy('p.CPF',
+                'p.nome',
+                'p.endereco',
+                'p.telefone',
+                'p.nascimento',
+                'p.email',
+                'p.genero',
+                'p.horario_contato',
+                'p.observacoes',
+                'ubs.nome'
+            )
             .where((qb) => {
                 if (nome) {
                     qb.where('p.nome', 'like', `%${nome}%`);
@@ -93,11 +104,10 @@ export async function getPeople(req: CustomRequest<SearchBody>, res: Response): 
                     qb.where('p.genero', '=', `${genero}`);
                 }
             }).paginate({
-                perPage: minimum,
+                perPage: max,
                 currentPage: current_page,
             });
 
-        
         if (response.data.length == 0) return res.status(404).send(response)
 
         return res.status(200).send(response);
