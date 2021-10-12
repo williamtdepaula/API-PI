@@ -15,7 +15,7 @@ Depois é feito um INSERT na table "pessoa_grupo", para relacionar a pessoa com 
 export async function savePerson(req: CustomRequest<PersonToSaveBody>, res: Response): Promise<Response> {
     try {
 
-        const { CPF, nome, endereco, genero, nascimento, telefone, UBS_idUBS, idGrupoRisco, email, horario_contato, observacoes } = req.body;
+        const { CPF, nome, endereco, genero, nascimento, telefone, UBS_idUBS, grupos_risco, email, horario_contato, observacoes } = req.body;
 
         await db(table_pessoa)
             .insert({
@@ -29,13 +29,19 @@ export async function savePerson(req: CustomRequest<PersonToSaveBody>, res: Resp
                 email,
                 horario_contato,
                 observacoes,
-            }).then((_) =>
-                db(table_pessoa_grupo)
-                    .insert({
+            }).then((_) => {
+                const inputs: {CPF: string, GrupoRisco: string}[] = []
+
+                grupos_risco.forEach(idGrupoRisco => {
+                    inputs.push({
                         CPF,
-                        GrupoRisco: idGrupoRisco
+                        GrupoRisco: idGrupoRisco,
                     })
-            );
+                })
+
+                return db(table_pessoa_grupo)
+                    .insert(inputs)
+            });
 
         return res.status(201).send("success")
     } catch (err) {

@@ -14,7 +14,7 @@ interface SearchBody {
 
 interface PersonToSaveBody extends Omit<Person, "UBS" | "grupo_risco"> {
     UBS_idUBS?: number;
-    idGrupoRisco?: number;
+    grupos_risco: string[];
 }
 
 interface CustomRequest<T> extends Request {
