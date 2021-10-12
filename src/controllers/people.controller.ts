@@ -15,7 +15,7 @@ Depois é feito um INSERT na table "pessoa_grupo", para relacionar a pessoa com 
 export async function savePerson(req: CustomRequest<PersonToSaveBody>, res: Response): Promise<Response> {
     try {
 
-        const { CPF, nome, endereco, genero, idade, nascimento, telefone, UBS_idUBS, idGrupoRisco, email, horario_contato, observacoes } = req.body;
+        const { CPF, nome, endereco, genero, nascimento, telefone, UBS_idUBS, idGrupoRisco, email, horario_contato, observacoes } = req.body;
 
         await db(table_pessoa)
             .insert({
@@ -23,7 +23,6 @@ export async function savePerson(req: CustomRequest<PersonToSaveBody>, res: Resp
                 nome,
                 endereco,
                 genero,
-                idade,
                 nascimento,
                 telefone,
                 UBS_idUBS,
@@ -40,6 +39,7 @@ export async function savePerson(req: CustomRequest<PersonToSaveBody>, res: Resp
 
         return res.status(201).send("success")
     } catch (err) {
+        console.log("err", err)
         const e = err as ErrorQuery
         if (e.code == "ER_DUP_ENTRY") {
             return res.status(409).send({ error: true, message: err })
@@ -60,13 +60,12 @@ A API também possui paginação, onde "minimum" é o mínimo de itens por pági
 export async function getPeople(req: CustomRequest<SearchBody>, res: Response): Promise<Response> {
     try {
 
-        const { minimum, current_page, nome, ubs, grupo_risco, genero, idade } = req.body;
+        const { minimum, current_page, nome, ubs, grupo_risco, genero } = req.body;
 
         const response: ResponseFromAPI<Person> = await db.select(
             'p.CPF',
             'p.nome',
             'p.endereco',
-            'p.idade',
             'p.telefone',
             'p.nascimento',
             'p.email',
@@ -92,9 +91,6 @@ export async function getPeople(req: CustomRequest<SearchBody>, res: Response): 
                 }
                 if (genero) {
                     qb.where('p.genero', '=', `${genero}`);
-                }
-                if (idade) {
-                    qb.where('p.idade', '=', `${idade}`);
                 }
             }).paginate({
                 perPage: minimum,

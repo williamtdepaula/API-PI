@@ -2,7 +2,6 @@ interface Person {
     CPF: string;
     nome: string;
     endereco: string;
-    idade: number;
     telefone: string;
     nascimento: string;
     email?: string;

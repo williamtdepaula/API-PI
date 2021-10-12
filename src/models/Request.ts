@@ -10,7 +10,6 @@ interface SearchBody {
     ubs?: number;
     grupo_risco?: number;
     genero?: string;
-    idade?: number;
 }
 
 interface PersonToSaveBody extends Omit<Person, "UBS" | "grupo_risco"> {

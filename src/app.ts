@@ -1,5 +1,6 @@
-import express, { Application } from 'express'
-import morgan from 'morgan'
+import express, { Application } from 'express';
+import morgan from 'morgan';
+import cors from 'cors';
 import IndexRoute from './routes/index.route';
 import PeopleRoute from './routes/people.route';
 import GroupRiskAndUBSRoute from './routes/groupRiskAndUBS.route';
@@ -21,6 +22,7 @@ export class App {
     }
 
     private middlewares() {
+        this.app.use(cors());
         this.app.use(morgan('dev'));
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: false }))
