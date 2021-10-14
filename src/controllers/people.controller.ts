@@ -1,9 +1,8 @@
-import { Response } from 'express'
+import { Request, Response } from 'express'
 import db from '../config/database'
 import { table_grupo_risco, table_pessoa, table_pessoa_grupo, table_UBS } from '../config/tables';
 import { Person } from '../models/Person'
 import { CustomRequest, ErrorQuery, PersonToSaveBody, ResponseFromAPI, SearchBody } from '../models/Request';
-
 /*
 
 API para salvar uma pessoa no banco de dados
@@ -63,10 +62,10 @@ A API aceita diversos filtros: nome, UBS, grupo de risco, gênero e idade
 A API também possui paginação, onde "minimum" é o mínimo de itens por página
 
 */
-export async function getPeople(req: CustomRequest<SearchBody>, res: Response): Promise<Response> {
+export async function getPeople(req: Request, res: Response): Promise<Response> {
     try {
 
-        const { max, current_page, nome, ubs, grupo_risco, genero } = req.body;
+        const { max, current_page, nome, ubs, grupo_risco, genero } = (req.query) as unknown as SearchBody;
 
         const response: ResponseFromAPI<Person> = await db.select(
             'p.CPF',
@@ -112,6 +111,7 @@ export async function getPeople(req: CustomRequest<SearchBody>, res: Response): 
             }).paginate({
                 perPage: max,
                 currentPage: current_page,
+                isLengthAware: true
             });
 
         if (response.data.length == 0) return res.status(404).send(response)
