@@ -69,10 +69,6 @@ export async function getPeople(req: Request, res: Response): Promise<Response> 
 
         const { max, current_page, nomeOuCPF, UBSs, grupos_risco, generos } = (req.query) as unknown as SearchBody;
 
-        console.log("ubsss", {
-            nomeOuCPF, UBSs, grupos_risco, generos
-        })
-
         const response: ResponseFromAPI<Person> = await db.select(
             'p.CPF',
             'p.nome',
@@ -129,7 +125,6 @@ export async function getPeople(req: Request, res: Response): Promise<Response> 
                 currentPage: current_page,
                 isLengthAware: true
             });
-
 
         if (response.data.length == 0) return res.status(404).send(response)
 
