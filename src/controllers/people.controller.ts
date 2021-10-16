@@ -3,6 +3,8 @@ import db from '../config/database'
 import { table_grupo_risco, table_pessoa, table_pessoa_grupo, table_UBS } from '../config/tables';
 import { Person } from '../models/Person'
 import { CustomRequest, ErrorQuery, PersonToSaveBody, ResponseFromAPI, SearchBody } from '../models/Request';
+import { maskRemoveAllSpecialCharacters } from '../resources/masks';
+import { stringHasOnlyNumbers } from '../resources/validations';
 /*
 
 API para salvar uma pessoa no banco de dados
@@ -29,7 +31,7 @@ export async function savePerson(req: CustomRequest<PersonToSaveBody>, res: Resp
                 horario_contato,
                 observacoes,
             }).then((_) => {
-                const inputs: {CPF: string, GrupoRisco: string}[] = []
+                const inputs: { CPF: string, GrupoRisco: string }[] = []
 
                 grupos_risco.forEach(idGrupoRisco => {
                     inputs.push({
@@ -65,7 +67,11 @@ A API também possui paginação, onde "minimum" é o mínimo de itens por pági
 export async function getPeople(req: Request, res: Response): Promise<Response> {
     try {
 
-        const { max, current_page, nome, ubs, grupo_risco, genero } = (req.query) as unknown as SearchBody;
+        const { max, current_page, nomeOuCPF, UBSs, grupos_risco, generos } = (req.query) as unknown as SearchBody;
+
+        console.log("ubsss", {
+            nomeOuCPF, UBSs, grupos_risco, generos
+        })
 
         const response: ResponseFromAPI<Person> = await db.select(
             'p.CPF',
@@ -96,23 +102,34 @@ export async function getPeople(req: Request, res: Response): Promise<Response> 
                 'ubs.nome'
             )
             .where((qb) => {
-                if (nome) {
-                    qb.where('p.nome', 'like', `%${nome}%`);
+                if (nomeOuCPF) {
+                    let isCPF = stringHasOnlyNumbers(maskRemoveAllSpecialCharacters(nomeOuCPF));
+
+                    if (isCPF) {
+                        qb.where('p.CPF', 'like', `%${maskRemoveAllSpecialCharacters(nomeOuCPF)}%`);
+                    } else {
+                        qb.where('p.nome', 'like', `%${nomeOuCPF}%`);
+                    }
                 }
-                if (ubs) {
-                    qb.where('p.UBS_idUBS', '=', `${ubs}`);
+                if (UBSs) {
+                    let UBSsArr = UBSs.split(",")
+
+                    qb.whereIn('p.UBS_idUBS', UBSsArr);
                 }
-                if (grupo_risco) {
-                    qb.where('pg.GrupoRisco', '=', `${grupo_risco}`);
+                if (grupos_risco) {
+                    let grupos_risco_arr = grupos_risco.split(",")
+                    qb.whereIn("pg.GrupoRisco", grupos_risco_arr)
                 }
-                if (genero) {
-                    qb.where('p.genero', '=', `${genero}`);
+                if (generos) {
+                    let genArr = generos.split(",")
+                    qb.whereIn("p.genero", genArr)
                 }
             }).paginate({
                 perPage: max,
                 currentPage: current_page,
                 isLengthAware: true
             });
+
 
         if (response.data.length == 0) return res.status(404).send(response)
 

@@ -6,10 +6,10 @@ import { Person } from "./Person";
 interface SearchBody {
     max: number;
     current_page: number;
-    nome?: string;
-    ubs?: number;
-    grupo_risco?: number;
-    genero?: string;
+    nomeOuCPF?: string;
+    UBSs?: string;
+    grupos_risco?: string;
+    generos?: string;
 }
 
 interface PersonToSaveBody extends Omit<Person, "UBS" | "grupo_risco"> {
