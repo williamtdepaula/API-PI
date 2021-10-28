@@ -4,10 +4,10 @@ attachPaginate()
 let knex = _knex({
     client: "mysql",
     connection: {
-        host: "127.0.0.1",
-        database: 'PI_UNIVESP-2021',
-        user: 'root',
-        password: 'root'
+        host: process.env.MYSQL_HOST,
+        database: process.env.MYSQL_DATABASE,
+        user: process.env.MYSQL_USER,
+        password: process.env.MYSQL_PASSWORD
     },
 });
 

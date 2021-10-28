@@ -1,0 +1,9 @@
+{
+    "env": {
+        "MYSQL_USER": "root",
+        "MYSQL_PASSWORD": "root",
+        "MYSQL_DATABASE": "PI_UNIVESP-2021",
+        "MYSQL_HOST": "127.0.0.1",
+        "MYSQL_PORT": "3306"
+    }
+}
