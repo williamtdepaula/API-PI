@@ -4,9 +4,13 @@
   "description": "Univesp PI backend side",
   "main": "index.js",
   "scripts": {
-    "start": "node build/index.js",
-    "build": "tsc",
-    "postinstall": "npm run build",
+    "ts:watch": "tsc -w",
+    "ts:build": "tsc",
+    "serve": "nodemon dist/server.js",
+    "watch": "concurrently \"npm run ts:watch\" \"npm run serve\"",
+    "build": "npm run ts:build",
+    "prod:serve": "node dist/server.js",
+    "start": "npm run build && npm run prod:serve",
     "dev": "nodemon src/main.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "git add . && git commit -m Heroku && git push heroku main"
