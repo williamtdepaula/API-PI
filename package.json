@@ -6,7 +6,7 @@
   "scripts": {
     "ts:watch": "tsc -w",
     "ts:build": "tsc",
-    "serve": "nodemon dist/server.js",
+    "serve": "nodemon dist/main.js",
     "watch": "concurrently \"npm run ts:watch\" \"npm run serve\"",
     "build": "npm run ts:build",
     "prod:serve": "node dist/server.js",
