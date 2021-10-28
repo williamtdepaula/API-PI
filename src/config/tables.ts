@@ -1,7 +1,7 @@
 const table_pessoa = "pessoa";
 const table_pessoa_grupo = "pessoa_grupo";
 const table_grupo_risco = "GrupoRisco";
-const table_UBS = "UBS";
+const table_UBS = "ubs";
 
 export {
     table_pessoa,

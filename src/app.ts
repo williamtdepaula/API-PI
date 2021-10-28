@@ -8,9 +8,7 @@ import GroupRiskAndUBSRoute from './routes/groupRiskAndUBS.route';
 export class App {
     app: Application;
 
-    constructor(
-        private port?: number | string
-    ) {
+    constructor() {
         this.app = express();
         this.settings();
         this.middlewares();
