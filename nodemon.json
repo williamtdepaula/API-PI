@@ -1,9 +1,8 @@
 {
     "env": {
-        "MYSQL_USER": "root",
-        "MYSQL_PASSWORD": "root",
-        "MYSQL_DATABASE": "PI_UNIVESP-2021",
-        "MYSQL_HOST": "127.0.0.1",
-        "MYSQL_PORT": "3306"
+        "MYSQL_USER": "b1afabdfe43634",
+        "MYSQL_PASSWORD": "794c7799",
+        "MYSQL_DATABASE": "heroku_cca9e552a89a1fa",
+        "MYSQL_HOST": "us-cdbr-east-04.cleardb.com"
     }
 }
