@@ -4,7 +4,7 @@
   "description": "Univesp PI backend side",
   "main": "index.js",
   "scripts": {
-    "start":"node dist/app.js",
+    "start":"node dist/main.js",
     "build":"tsc",
     "dev": "nodemon src/main.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
