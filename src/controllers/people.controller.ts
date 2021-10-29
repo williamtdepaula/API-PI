@@ -18,6 +18,10 @@ export async function savePerson(req: CustomRequest<PersonToSaveBody>, res: Resp
 
         const { CPF, nome, endereco, genero, nascimento, telefone, UBS_idUBS, grupos_risco, email, horario_contato, observacoes } = req.body;
 
+        let exist = (await db(table_pessoa).select("*").where({CPF})).length > 0
+
+        if(exist) return res.status(409).send({error: true})        
+
         await db(table_pessoa)
             .insert({
                 CPF,
