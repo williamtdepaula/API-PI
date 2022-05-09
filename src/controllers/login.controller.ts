@@ -14,9 +14,11 @@ export async function login(req: Request, res: Response): Promise<Response | voi
         const ubs_password_hash = (await db(table_UBS).select('password').where({idUBS: id_ubs})).map(Object.values)[0][0];
 
         bcrypt.compare(password.toString(), ubs_password_hash, function(err, result) {
-            console.log("result", result)
-            if (result) return res.status(200).send({success: true})
-    
+            if (!err){
+                if (result) return res.status(200).send({success: true})
+        
+                return res.status(403).send({success: false})
+            } 
             return res.status(403).send({success: false})
         });
     }catch(e) {
