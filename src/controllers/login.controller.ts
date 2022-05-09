@@ -9,7 +9,6 @@ Retorna um objeto do tipo Bool
 */
 export async function login(req: Request, res: Response): Promise<Response | void> {
     let {id_ubs, password} = req.body
-    console.log("password", password)
 
     try {
         const ubs_password_hash = (await db(table_UBS).select('password').where({idUBS: id_ubs})).map(Object.values)[0][0];
