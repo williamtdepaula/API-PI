@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import db from '../config/database'
 import { table_grupo_risco, table_UBS } from '../config/tables';
 import { ResponseGrupoRiskAndUBS } from '../models/Request';
-
+import bcrypt from 'bcrypt';
 /*
 API que retorna todos os grupos de risco e UBSs cadastradas no banco de dados
 

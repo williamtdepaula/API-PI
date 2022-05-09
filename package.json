@@ -4,8 +4,8 @@
   "description": "Univesp PI backend side",
   "main": "index.js",
   "scripts": {
-    "start":"node dist/main.js",
-    "build":"tsc",
+    "start": "node dist/main.js",
+    "build": "tsc",
     "dev": "nodemon src/main.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "git add . && git commit -m Heroku && git push heroku main"
@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@types/cors": "^2.8.12",
+    "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "knex": "^0.95.11",

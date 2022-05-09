@@ -3,6 +3,7 @@ import { IWithPagination } from "knex-paginate";
 import { GroupRisk, UBS } from "./GroupRiskAndUBS";
 import { Person } from "./Person";
 
+
 interface SearchBody {
     max: number;
     current_page: number;
