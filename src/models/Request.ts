@@ -29,6 +29,13 @@ interface ResponseGrupoRiskAndUBS {
     UBSs: UBS[]
 }
 
+interface ResponseLogin {
+    idUBS: number;
+    CNES: number;
+    nome: string;
+    isADM: boolean;
+}
+
 interface ErrorQuery  {
     code: string
     errno: number,
@@ -38,4 +45,4 @@ interface ErrorQuery  {
     sql: string
 }
 
-export { SearchBody, PersonToSaveBody, CustomRequest, ResponseFromAPI, ErrorQuery, ResponseGrupoRiskAndUBS }
+export { SearchBody, PersonToSaveBody, CustomRequest, ResponseFromAPI, ErrorQuery, ResponseGrupoRiskAndUBS, ResponseLogin }

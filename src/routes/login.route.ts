@@ -4,6 +4,6 @@ import { login } from '../controllers/login.controller';
 const router = Router();
 
 router.route('/login')
-    .get(login)
+    .post(login)
 
 export default router;

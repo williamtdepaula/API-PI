@@ -2,20 +2,28 @@ import { Request, Response } from 'express'
 import db from '../config/database'
 import bcrypt from 'bcrypt';
 import { table_UBS } from '../config/tables';
+import { ResponseLogin } from '../models/Request';
 /*
 API para checar se o login está correto
 
 Retorna um objeto do tipo Bool
 */
-export async function login(req: Request, res: Response): Promise<Response | void> {
+export async function login(req: Request, res: Response): Promise<Response<ResponseLogin> | void> {
     let {id_ubs, password} = req.body
 
     try {
-        const ubs_password_hash = (await db(table_UBS).select('password').where({idUBS: id_ubs})).map(Object.values)[0][0];
-
-        bcrypt.compare(password.toString(), ubs_password_hash, function(err, result) {
+        const UBS_DB: ResponseLogin & { password: string } = (await db(table_UBS).select('idUBS', 'CNES', 'nome', 'password', 'isADM').where({idUBS: id_ubs}))[0]
+        
+        bcrypt.compare(password.toString(), UBS_DB.password, function(err, result) {
             if (!err){
-                if (result) return res.status(200).send({success: true})
+                const response: ResponseLogin = {
+                    idUBS: id_ubs,
+                    nome: UBS_DB.nome,
+                    CNES: UBS_DB.CNES,
+                    isADM: UBS_DB.isADM ? true : false
+                } 
+
+                if (result) return res.status(200).send(response)
         
                 return res.status(403).send({success: false})
             } 
