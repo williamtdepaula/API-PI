@@ -12,7 +12,7 @@ export async function login(req: Request, res: Response): Promise<Response<Respo
     let {id_ubs, password} = req.body
 
     try {
-        const UBS_DB: ResponseLogin & { password: string } = (await db(table_UBS).select('idUBS', 'CNES', 'nome', 'password', 'isADM').where({idUBS: id_ubs}))[0]
+        const UBS_DB: ResponseLogin & { password: string } = (await db(table_UBS).select('idUBS', 'CNES', 'nome', 'password', 'isADM', 'address').where({idUBS: id_ubs}))[0]
         
         bcrypt.compare(password.toString(), UBS_DB.password, function(err, result) {
             if (!err){
@@ -20,7 +20,8 @@ export async function login(req: Request, res: Response): Promise<Response<Respo
                     idUBS: id_ubs,
                     nome: UBS_DB.nome,
                     CNES: UBS_DB.CNES,
-                    isADM: UBS_DB.isADM ? true : false
+                    isADM: UBS_DB.isADM ? true : false,
+                    address: UBS_DB.address
                 } 
 
                 if (result) return res.status(200).send(response)

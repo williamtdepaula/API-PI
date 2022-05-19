@@ -34,6 +34,7 @@ interface ResponseLogin {
     CNES: number;
     nome: string;
     isADM: boolean;
+    address?: string;
 }
 
 interface ErrorQuery  {

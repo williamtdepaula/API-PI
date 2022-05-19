@@ -50,7 +50,6 @@ export async function savePerson(req: CustomRequest<PersonToSaveBody>, res: Resp
 
         return res.status(201).send("success")
     } catch (err) {
-        console.log("err", err)
         const e = err as ErrorQuery
         if (e.code == "ER_DUP_ENTRY") {
             return res.status(409).send({ error: true, message: err })

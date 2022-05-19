@@ -7,7 +7,8 @@ interface UBS {
     idUBS: number;
     CNES: number;
     nome: string;
-    isADM: string
+    isADM: string;
+    address?: string;
 }
 
 export { GroupRisk, UBS }

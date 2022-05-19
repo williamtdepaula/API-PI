@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { getGroupRiskAndUBS, getUBSs } from '../controllers/groupRiskAndUBS.controller';
+import { getGroupRiskAndUBS, getUBSByPerson, getUBSs } from '../controllers/groupRiskAndUBS.controller';
 
 const router = Router();
 
@@ -8,5 +8,8 @@ router.route('/groupRiskAndUBS')
 
 router.route('/getUBSs')
     .get(getUBSs)
+
+router.route('/getUBSByPerson')
+    .get(getUBSByPerson)
 
 export default router;
